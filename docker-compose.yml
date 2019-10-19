@@ -1,0 +1,23 @@
+version: '2'
+  services:
+    demo-back:
+      image: demo-back:latest
+      ports:
+        - 5000:5000
+      restart: always
+      networks:
+        extnetwork:
+          ipv4_address: 172.26.0.2
+    demo-web:
+      image: demo-web:latest
+      ports:
+        - 3000:3000
+      restart: always
+      networks:
+        extnetwork:
+          ipv4_address: 172.26.0.3
+networks:
+  extnetwork:
+    ipam:
+      config:
+        - subnet: 172.26.0.0/16
