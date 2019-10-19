@@ -1,6 +1,7 @@
 FROM golang:latest as builder
 RUN mkdir /go/src/app
 COPY . /go/src/app
+WORKDIR /go/src/app
 RUN go build main.go
 
 FROM ubuntu:latest
