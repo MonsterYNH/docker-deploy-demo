@@ -9,4 +9,4 @@ WORKDIR /root
 COPY --from=builder /go/src/app/main /root
 RUN ls
 EXPOSE 5000
-CMD main
+CMD ./main
