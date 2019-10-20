@@ -30,7 +30,7 @@ func init() {
 	if staticPathStr := os.Getenv("ENV_STATIC_PATH"); len(staticPath) > 0 {
 		staticPath = staticPathStr
 	} else {
-		defaultStaticPath, err := filepath.Abs("static")
+		defaultStaticPath, err := filepath.Abs("media")
 		if err != nil {
 			panic(fmt.Sprintf("ERROR: static path init error: %s", err))
 		}
