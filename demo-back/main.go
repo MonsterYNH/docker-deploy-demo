@@ -65,8 +65,9 @@ func main() {
 	v1Group := engine.Group("/v1")
 	{
 		v1Group.GET("/greeting", Greeting)
+		v1Group.POST("/upload", Upload)
 	}
-	engine.POST("/upload", Upload)
+
 	engine.Static(staticUrlPath, staticPath)
 	engine.Run(server)
 }
