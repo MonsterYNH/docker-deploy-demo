@@ -7,6 +7,5 @@ RUN go build main.go
 FROM ubuntu:latest
 WORKDIR /root
 COPY --from=builder /go/src/app/main /root
-RUN ls
 EXPOSE 5000
 CMD ./main

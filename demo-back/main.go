@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"log"
 	"net/http"
 	"os"
 	"path"
@@ -78,33 +79,38 @@ type Response struct {
 	Data interface{} `json:"data"`
 }
 
-func Greeting(c *gin.Context) {
-	c.JSON(http.StatusOK, Response{
-		Code: RES_SUCCESS,
-		Message: "Success",
-		Data: greeting,
+func ResponseData(c *gin.Context, code int, data interface{}, err error) {
+	if code != 0 {
+		c.JSON(http.StatusOK, Response{
+			Code: code,
+			Message: nil,
+			Data: data,
+		})
+		return
+	}
+	if err != nil {
+		log.Println("ERROR: ", err)
+	}
+	c.JSON(http.StatusBadRequest, Response{
+		Code: code,
+		Message: err.Error(),
+		Data: nil,
 	})
+}
+
+func Greeting(c *gin.Context) {
+	ResponseData(c, RES_SUCCESS, greeting, nil)
 }
 
 func Upload(c *gin.Context) {
 	file, err := c.FormFile("file")
 	if err != nil {
-		c.JSON(http.StatusBadRequest, Response{
-			Code: RES_ERROR_PARAMETER,
-			Message: err.Error(),
-		})
+		ResponseData(c, RES_ERROR_PARAMETER, nil, err)
 		return
 	}
 	if err := c.SaveUploadedFile(file, path.Join(staticPath, file.Filename)); err != nil {
-		c.JSON(http.StatusBadRequest, Response{
-			Code: RES_ERROR_UPLOAD,
-			Message: err.Error(),
-		})
+		ResponseData(c, RES_ERROR_UPLOAD, nil, err)
 		return
 	}
-	c.JSON(http.StatusOK, Response{
-		Code: RES_SUCCESS,
-		Message: "Success",
-		Data: path.Join("/"+staticUrlPath, file.Filename),
-	})
+	ResponseData(c, RES_SUCCESS, path.Join("/"+staticUrlPath, file.Filename), nil)
 }
