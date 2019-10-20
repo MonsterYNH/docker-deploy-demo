@@ -6,7 +6,7 @@ services:
       - 5000:5000
     restart: always
     environment:
-      - GREETING=早上好
+      - ENV_GREETING=早上好
     networks:
       extnetwork:
         ipv4_address: 172.35.0.2
