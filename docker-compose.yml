@@ -1,7 +1,9 @@
-version: '3'
+version: '3。7'
 services:
   demo-back:
     image: demo-back:latest
+    deploy:
+      replicas: 2
     replicas: 3
     ports:
       - 5000:5000
@@ -15,7 +17,8 @@ services:
         ipv4_address: 172.35.0.2
   demo-web:
     image: demo-web:latest
-    replicas: 3
+    deploy:
+      replicas: 2
     restart: always
     ports:
       - 3000:3000
