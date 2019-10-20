@@ -83,7 +83,7 @@ func ResponseData(c *gin.Context, code int, data interface{}, err error) {
 	if code != 0 {
 		c.JSON(http.StatusOK, Response{
 			Code: code,
-			Message: nil,
+			Message: "",
 			Data: data,
 		})
 		return
