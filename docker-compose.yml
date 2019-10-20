@@ -16,6 +16,16 @@ services:
     networks:
       extnetwork:
         ipv4_address: 172.35.0.3
+  demo-nginx:
+    image: nginx:latest
+    restart: always
+    volumes:
+      - $PWD/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+    networks:
+      extnetwork:
+        ipv4_address: 172.35.0.4
 networks:
   extnetwork:
     ipam:
