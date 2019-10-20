@@ -20,10 +20,11 @@ var (
 
 // 返回码
 const (
-	RES_SUCCESS = iota
+	RES_ERROR_UNKNOW = iota - 1
+	RES_SUCCESS
 	RES_ERROR_PARAMETER
 	RES_ERROR_UPLOAD
-	RES_ERROR_UNKNOW
+
 )
 
 func init() {
@@ -62,7 +63,11 @@ func init() {
 }
 
 func main() {
-	engine := gin.Default()
+	//engine := gin.Default()
+	engine := gin.New()
+	engine.Use(Recover())
+	engine.Use(gin.Logger())
+
 	v1Group := engine.Group("/v1")
 	{
 		v1Group.GET("/greeting", Greeting)
@@ -79,26 +84,41 @@ type Response struct {
 	Data interface{} `json:"data"`
 }
 
+func Recover() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		defer func() {
+			if err := recover(); err != nil {
+				ResponseData(c, RES_ERROR_UNKNOW, nil, err.(error))
+			}
+		}()
+		c.Next()
+	}
+}
+
 func ResponseData(c *gin.Context, code int, data interface{}, err error) {
-	if code != 0 {
-		c.JSON(http.StatusOK, Response{
+	message := "Success"
+	if code < 0 {
+		c.AbortWithStatusJSON(http.StatusInternalServerError, Response{
 			Code: code,
-			Message: "",
-			Data: data,
+			Message: err.Error(),
+			Data: nil,
 		})
 		return
 	}
 	if err != nil {
 		log.Println("ERROR: ", err)
+		message = err.Error()
 	}
-	c.JSON(http.StatusBadRequest, Response{
+	c.AbortWithStatusJSON(http.StatusOK, Response{
 		Code: code,
-		Message: err.Error(),
-		Data: nil,
+		Message: message,
+		Data: data,
 	})
 }
 
 func Greeting(c *gin.Context) {
+	i := 0
+	fmt.Println(1/i)
 	ResponseData(c, RES_SUCCESS, greeting, nil)
 }
 
