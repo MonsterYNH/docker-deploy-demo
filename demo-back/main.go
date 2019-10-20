@@ -117,7 +117,6 @@ func ResponseData(c *gin.Context, code int, data interface{}, err error) {
 }
 
 func Greeting(c *gin.Context) {
-	i := 0
 	ResponseData(c, RES_SUCCESS, greeting, nil)
 }
 
