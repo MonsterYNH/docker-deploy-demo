@@ -7,6 +7,8 @@ services:
     restart: always
     environment:
       - ENV_GREETING=早上好
+    volumes:
+      - /root/media:/root/media
     networks:
       extnetwork:
         ipv4_address: 172.35.0.2
