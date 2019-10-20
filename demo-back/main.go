@@ -40,7 +40,7 @@ func init() {
 	if staticUrlPathStr := os.Getenv("ENV_STATIC_URL_PATH"); len(staticUrlPathStr) > 0 {
 		staticUrlPath = staticUrlPathStr
 	} else {
-		staticUrlPath = "static"
+		staticUrlPath = "media"
 	}
 	// 服务器访问地址
 	if serverStr := os.Getenv("ENV_SERVER"); len(serverStr) > 0 {
