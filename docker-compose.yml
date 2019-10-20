@@ -11,6 +11,8 @@ services:
   demo-web:
     image: demo-web:latest
     restart: always
+    ports:
+      - 3000:3000
     networks:
       extnetwork:
         ipv4_address: 172.35.0.3
@@ -18,4 +20,4 @@ networks:
   extnetwork:
     ipam:
       config:
-        - subnet: 172.35.0.0/16
+        - subnet: 172.35.0.1/16
