@@ -1,9 +1,11 @@
+# build environment
 FROM golang:latest as builder
 RUN mkdir /go/src/app
 COPY . /go/src/app
 WORKDIR /go/src/app
 RUN go build main.go
 
+# product environment
 FROM ubuntu:latest
 WORKDIR /root
 COPY --from=builder /go/src/app/main /root

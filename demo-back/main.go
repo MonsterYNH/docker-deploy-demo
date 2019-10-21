@@ -119,8 +119,8 @@ func ResponseData(c *gin.Context, code int, data interface{}, err error) {
 }
 
 func Greeting(c *gin.Context) {
-	i := 0
-	fmt.Println(9/i)
+	//i := 0
+	//fmt.Println(9/i)
 	ResponseData(c, RES_SUCCESS, greeting, nil)
 }
 
