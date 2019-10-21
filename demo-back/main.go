@@ -63,10 +63,12 @@ func init() {
 }
 
 func main() {
-	//engine := gin.Default()
 	engine := gin.New()
-	engine.Use(Recover())
+
 	engine.Use(gin.Logger())
+	engine.Use(Recover())
+
+
 
 	v1Group := engine.Group("/v1")
 	{
@@ -97,6 +99,10 @@ func Recover() gin.HandlerFunc {
 
 func ResponseData(c *gin.Context, code int, data interface{}, err error) {
 	message := "Success"
+	if err != nil {
+		log.Println("ERROR: ", err)
+		message = err.Error()
+	}
 	if code < 0 {
 		c.AbortWithStatusJSON(http.StatusInternalServerError, Response{
 			Code: code,
@@ -104,10 +110,6 @@ func ResponseData(c *gin.Context, code int, data interface{}, err error) {
 			Data: nil,
 		})
 		return
-	}
-	if err != nil {
-		log.Println("ERROR: ", err)
-		message = err.Error()
 	}
 	c.AbortWithStatusJSON(http.StatusOK, Response{
 		Code: code,
@@ -117,6 +119,8 @@ func ResponseData(c *gin.Context, code int, data interface{}, err error) {
 }
 
 func Greeting(c *gin.Context) {
+	//i := 0
+	//fmt.Println(9/i)
 	ResponseData(c, RES_SUCCESS, greeting, nil)
 }
 
